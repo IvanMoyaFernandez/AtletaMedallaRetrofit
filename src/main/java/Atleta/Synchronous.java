@@ -25,13 +25,13 @@ public class Synchronous {
         // Si el servidor contesta OK
         if(response.isSuccessful()) {
             List<Atleta> atletasList = response.body();
-            System.out.println("GET Todos los atletas");
-            System.out.println("Codigo: " + response.code() + System.lineSeparator() +
-                    "   GET todos Atletas: " + atletasList);
+            System.out.println("- GET Todos los atletas");
+            System.out.println("  Codigo: " + response.code() + System.lineSeparator() +
+                    "  GET todos Atletas: " + atletasList);
         // Si el servidor contesta KO
         } else {
-            System.out.println("- Codigo: " + response.code() +
-                    " Error: " + response.errorBody());
+            System.out.println("  Codigo: " + response.code() +
+                    "  Error: " + response.errorBody());
         }
 
 // Llamamos a un error provocado
@@ -41,8 +41,9 @@ public class Synchronous {
         response= call.execute();
         // Si el servidor contesta KO
         if(!response.isSuccessful()) {
-            System.out.println("Codigo: " + response.code() +
-                    " Error: " + response.raw() );
+            System.out.println("- ERROR Provocado");
+            System.out.println("  Codigo error: " + response.code() + System.lineSeparator() +
+                    "  Error: " + response.raw() );
         }
 
 // POST Atleta
@@ -52,11 +53,13 @@ public class Synchronous {
         atleta.setNacionalidad("Es");
         Call<Atleta> callAtleta = atletaService.createAtleta(atleta);
         Response<Atleta> responseAtleta= callAtleta.execute();
-        // Si el servidor contesta OK
+
+        // Si el servidor contesta OK --> Realizamos las siguientes operaciones
         if(responseAtleta.isSuccessful()) {
+            System.out.println("- Insertar Atleta");
             Atleta atletaResp = responseAtleta.body();
-            System.out.println("Codigo: " + responseAtleta.code() + System.lineSeparator() +
-                    "   Atleta añadido: " + atletaResp);
+            System.out.println("  Codigo: " + responseAtleta.code() + System.lineSeparator() +
+                    "  Atleta añadido: " + atletaResp);
 
 
 // PUT Atleta --> Actualizamos el atleta creado anteriormente
@@ -64,51 +67,44 @@ public class Synchronous {
             callAtleta = atletaService.updateAtleta(atletaResp);
             responseAtleta= callAtleta.execute();
             // Si el servidor contesta Ok
-            System.out.println("- Codigo: " + responseAtleta.code() + System.lineSeparator() +
-                    "   Atleta modificado: " + responseAtleta.body());
+            System.out.println("- Actualizar Atleta añadido anteriormente");
+            System.out.println("  Codigo: " + responseAtleta.code() + System.lineSeparator() +
+                    "  Atleta modificado: " + responseAtleta.body());
 
 // GET TODOS Atletas para comprobar que se ha modificado el atleta anterior
             call = atletaService.getAllAtletas();
             response= call.execute();
-            System.out.println("Comprobación del PUT " + System.lineSeparator() +
-                    "   Codigo: " + response.code() + System.lineSeparator() +
-                    "   GET todos atletas: " + response.body());
+            System.out.println("- Comprobación del PUT anterior" + System.lineSeparator() +
+                    "  Codigo: " + response.code() + System.lineSeparator() +
+                    "  GET todos atletas: " + response.body());
 
 // DELETE Atleta
             Call<Void> callDelete= atletaService.deleteAtleta(atletaResp.getId());
             Response<Void> responseDelete= callDelete.execute();
-
-            System.out.println("Codigo del borrado: " + responseDelete.code());
+            System.out.println("- Delete Atleta");
+            System.out.println("  Codigo: " + responseDelete.code());
 
 // GET TODOS Atletas para comprobar si se ha eliminado
             call = atletaService.getAllAtletas();
             response= call.execute();
-            System.out.println("Comprobación del delete " + System.lineSeparator() +
-                    "   Codigo: " + response.code() + System.lineSeparator() +
-                    "   GET atletas: " + response.body());
-
-
-
-
+            System.out.println("- Comprobación del delete " + System.lineSeparator() +
+                    "  Codigo: " + response.code() + System.lineSeparator() +
+                    "  GET todos atletas: " + response.body());
+        // Si el servidor contesta KO --> No realizaremos las anteriores operaciones
         } else {
-            System.out.println("Status code: " + responseAtleta.code() +
-                    "Message error: " + responseAtleta.errorBody());
+            System.out.println("El Atleta no se ha insertado correctamente. Por ello no se han realizado las operaciones CRUD programadas");
+            System.out.println("  Codigo: " + responseAtleta.code() +
+                    "  Error: " + responseAtleta.errorBody());
         }
 
-        /**
-         * Ejemplo GET de un atleta
-         */
-        callAtleta = atletaService.getAtleta(1L);
+// GET un Atleta
+        callAtleta = atletaService.getAtleta(2L);
         responseAtleta = callAtleta.execute();
-
+        // Si el servidor contesta OK
         if(responseAtleta.isSuccessful()) {
-            System.out.println("GET ONE->Status code: " + responseAtleta.code() +
-                    " Atleta: " + responseAtleta.body() );
+            System.out.println("- GET un Atleta con id 2" + System.lineSeparator() +
+                    "  Codigo: " + responseAtleta.code() + System.lineSeparator() +
+                    "  Atleta: " + responseAtleta.body() );
         }
-
-
-
-
-
     }
 }
