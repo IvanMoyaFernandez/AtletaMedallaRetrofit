@@ -79,11 +79,11 @@ public class Synchronous {
                     "  GET todos atletas: " + response.body());
 
 // DELETE Atleta
-            Call<Void> callDelete= atletaService.deleteAtleta(atletaResp.getId());
+/*            Call<Void> callDelete= atletaService.deleteAtleta(atletaResp.getId());
             Response<Void> responseDelete= callDelete.execute();
             System.out.println("- Delete Atleta");
             System.out.println("  Codigo: " + responseDelete.code());
-
+*/
 // GET TODOS Atletas para comprobar si se ha eliminado
             call = atletaService.getAllAtletas();
             response= call.execute();

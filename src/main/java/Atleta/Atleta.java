@@ -1,7 +1,5 @@
 package Atleta;
 
-import java.util.Date;
-
 public class Atleta {
     public Long id;
     public String nombre;
